@@ -1,6 +1,6 @@
 package com.github.biuld
 
-import com.github.biuld.largeIntCal.{LinkedList, ListNode}
+import com.github.biuld.biTree.{BinaryTree, TreeNode}
 
 /**
  * Hello world!
@@ -8,9 +8,11 @@ import com.github.biuld.largeIntCal.{LinkedList, ListNode}
  */
 object App {
     def main(args: Array[String]): Unit = {
-        val a = LinkedList(5)
-        val b = LinkedList(6)
 
-        println(a-b)
+        val tree: BinaryTree = BinaryTree(Array(1, 3, 2, 4, 5))
+
+        Array(0, 1, 2, 3).foreach(style => println(BinaryTree.stringify(style, tree)))
+
+        println(BinaryTree.height(tree))
     }
 }
