@@ -6,6 +6,10 @@ trait BinaryTree {
     def incl(x: Int): BinaryTree
 
     def contains(x: Int): Boolean
+
+    def foreach(fn: => BinaryTree => Unit): Unit = {
+        BinaryTree.inOrder(this, fn)
+    }
 }
 
 object BinaryTree {
