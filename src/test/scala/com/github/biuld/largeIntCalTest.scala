@@ -19,44 +19,44 @@ class largeIntCalTest {
         wrapper(addition_less_than_1000, "1000以内加法")
     }
 
-    def subtraction_less_than_10(): Unit = {
+    private def subtraction_less_than_10(): Unit = {
         for (i <- (0 until 10))
             compute(11, operation = false)
     }
 
-    def subtraction_less_than_100(): Unit = {
+    private def subtraction_less_than_100(): Unit = {
         for (i <- (0 until 10))
             compute(101, operation = false)
     }
 
-    def subtraction_less_than_1000(): Unit = {
+    private def subtraction_less_than_1000(): Unit = {
         for (i <- (0 until 10))
             compute(10001, operation = false)
     }
 
-    def addition_less_than_10(): Unit = {
+    private def addition_less_than_10(): Unit = {
         for (i <- (0 until 10))
             compute(11, operation = true)
     }
 
-    def addition_less_than_100(): Unit = {
+    private def addition_less_than_100(): Unit = {
         for (i <- (0 until 10))
             compute(101, operation = true)
     }
 
-    def addition_less_than_1000(): Unit = {
+    private def addition_less_than_1000(): Unit = {
         for (i <- (0 until 10))
             compute(1001, operation = true)
     }
 
-    def wrapper(fn: => () => Unit, msg: String): Unit = {
+    private def wrapper(fn: => () => Unit, msg: String): Unit = {
         println(msg)
         println("==================================")
         fn()
         println("----------------------------------")
     }
 
-    def compute(max: Int, operation: Boolean): Unit = {
+    private def compute(max: Int, operation: Boolean): Unit = {
 
         val a = Random.nextInt(max)
         val b = Random.nextInt(max)
