@@ -1,6 +1,6 @@
 package com.github.biuld
 
-import com.github.biuld.sort.Insertion
+import com.github.biuld.sort.{Insertion, Selection}
 import org.junit.Test
 
 import scala.util.Random
@@ -17,6 +17,7 @@ class sortingTest {
     @Test
     def test(): Unit = {
         insertionSortTest()
+        selectionSortTest()
     }
 
     private def insertionSortTest(): Unit = {
@@ -25,5 +26,9 @@ class sortingTest {
         println("insertion sort test OK!")
     }
 
-
+    private def selectionSortTest(): Unit = {
+        assert(Selection.selectionSort(unSorted).mkString(",") == expect)
+        assert(Selection.heapSort(unSorted).mkString(",") == expect)
+        println("selection sort test OK!")
+    }
 }
