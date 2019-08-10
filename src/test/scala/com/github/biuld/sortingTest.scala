@@ -1,6 +1,6 @@
 package com.github.biuld
 
-import com.github.biuld.sort.{Insertion, Selection}
+import com.github.biuld.sort.{Insertion, Selection, Swap}
 import org.junit.Test
 
 import scala.util.Random
@@ -10,25 +10,40 @@ class sortingTest {
 
     val generator: IndexedSeq[Int] = for (i <- 1 to 100) yield Random.nextInt(100)
 
-    val unSorted: Array[Int] = generator.toArray
-
-    val expect: String = unSorted.sorted.mkString(",")
-
     @Test
     def test(): Unit = {
         insertionSortTest()
         selectionSortTest()
+        swapSortTest()
     }
 
     private def insertionSortTest(): Unit = {
-        assert(Insertion.insertionSort(unSorted).mkString(",") == expect)
-        assert(Insertion.shellSort(unSorted).mkString(",") == expect)
+
+        val unSorted = generator.toList
+        val expect = unSorted.sorted.mkString(",")
+
+        assert(Insertion.insertionSort(unSorted.toArray).mkString(",") == expect)
+        assert(Insertion.shellSort(unSorted.toArray).mkString(",") == expect)
         println("insertion sort test OK!")
     }
 
     private def selectionSortTest(): Unit = {
-        assert(Selection.selectionSort(unSorted).mkString(",") == expect)
-        assert(Selection.heapSort(unSorted).mkString(",") == expect)
+
+        val unSorted = generator.toList
+        val expect = unSorted.sorted.mkString(",")
+
+        assert(Selection.selectionSort(unSorted.toArray).mkString(",") == expect)
+        assert(Selection.heapSort(unSorted.toArray).mkString(",") == expect)
         println("selection sort test OK!")
+    }
+
+    private def swapSortTest(): Unit = {
+
+        val unSorted = generator.toList
+        val expect = unSorted.sorted.mkString(",")
+
+        assert(Swap.bubbleSort(unSorted.toArray).mkString(",") == expect)
+        assert(Swap.quickSort(unSorted.toArray).mkString(",") == expect)
+        println("swap sort test OK!")
     }
 }
