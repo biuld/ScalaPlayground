@@ -1,6 +1,6 @@
 package com.github.biuld
 
-import com.github.biuld.sort.{Insertion, Selection, Swap}
+import com.github.biuld.sort.{Insertion, Merge, Selection, Swap}
 import org.junit.Test
 
 import scala.util.Random
@@ -15,6 +15,7 @@ class sortingTest {
         insertionSortTest()
         selectionSortTest()
         swapSortTest()
+        mergeSortTest()
     }
 
     private def insertionSortTest(): Unit = {
@@ -45,5 +46,14 @@ class sortingTest {
         assert(Swap.bubbleSort(unSorted.toArray).mkString(",") == expect)
         assert(Swap.quickSort(unSorted.toArray).mkString(",") == expect)
         println("swap sort test OK!")
+    }
+
+    private def mergeSortTest(): Unit = {
+
+        val unSorted = generator.toList
+        val expect = unSorted.sorted.mkString(",")
+
+        assert(Merge.mergeSort(unSorted).mkString(",") == expect)
+        println("merge sort test OK!")
     }
 }
