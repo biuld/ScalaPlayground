@@ -18,6 +18,18 @@ object Selection {
         source
     }
 
+    /**
+     * This version perfectly shows the concept of selection
+     * @param xs  the list to be sorted
+     * @param acc the accumulator
+     * @return
+     */
+    @tailrec
+    def selectionSort(xs: List[Int], acc: List[Int] = Nil): List[Int] = xs match {
+        case Nil => acc
+        case _ => selectionSort(xs.filter(_ < xs.max), xs.filter(_ == xs.max) ::: acc)
+    }
+
     def heapSort(source: Array[Int]): Array[Int] = {
 
         @tailrec

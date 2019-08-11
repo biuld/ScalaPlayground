@@ -34,6 +34,7 @@ class sortingTest {
         val expect = unSorted.sorted.mkString(",")
 
         assert(Selection.selectionSort(unSorted.toArray).mkString(",") == expect)
+        assert(Selection.selectionSort(unSorted).mkString(",") == expect)
         assert(Selection.heapSort(unSorted.toArray).mkString(",") == expect)
         println("selection sort test OK!")
     }
@@ -44,7 +45,7 @@ class sortingTest {
         val expect = unSorted.sorted.mkString(",")
 
         assert(Swap.bubbleSort(unSorted.toArray).mkString(",") == expect)
-        assert(Swap.quickSort(unSorted.toArray).mkString(",") == expect)
+        assert(Swap.quickSort(unSorted).mkString(",") == expect)
         println("swap sort test OK!")
     }
 

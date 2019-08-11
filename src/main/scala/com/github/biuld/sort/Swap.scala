@@ -26,13 +26,13 @@ object Swap {
         source
     }
 
-    def quickSort(source: Array[Int]): Array[Int] = {
+    def quickSort(xs: List[Int]): List[Int] = {
 
-        if (source.length <= 1)
-            return source
+        if (xs.length <= 1)
+            return xs
 
-        val pivot = source.head
+        val pivot = xs.head
 
-        quickSort(source.filter(_ < pivot)) appendedAll source.filter(_ == pivot) appendedAll quickSort(source.filter(_ > pivot))
+        quickSort(xs.filter(_ < pivot)) ::: xs.filter(_ == pivot) ::: quickSort(xs.filter(_ > pivot))
     }
 }
