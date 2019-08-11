@@ -46,6 +46,7 @@ class sortingTest {
 
         assert(Swap.bubbleSort(unSorted.toArray).mkString(",") == expect)
         assert(Swap.quickSort(unSorted).mkString(",") == expect)
+        assert(Swap.quickSort[Int](unSorted)(_ < _).mkString(",") == expect)
         println("swap sort test OK!")
     }
 
