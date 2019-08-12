@@ -24,6 +24,7 @@ class sortingTest {
         val expect = unSorted.sorted.mkString(",")
 
         assert(Insertion.insertionSort(unSorted.toArray).mkString(",") == expect)
+        assert(Insertion.insertionSort(unSorted).mkString(",") == expect)
         assert(Insertion.shellSort(unSorted.toArray).mkString(",") == expect)
         println("insertion sort test OK!")
     }

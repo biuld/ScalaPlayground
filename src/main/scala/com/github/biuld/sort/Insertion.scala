@@ -1,6 +1,6 @@
 package com.github.biuld.sort
 
-import scala.collection.mutable.ArrayBuffer
+import scala.annotation.tailrec
 
 object Insertion {
 
@@ -13,6 +13,21 @@ object Insertion {
                     source(j - 1) = temp
                 }
         source
+    }
+
+    def insertionSort(xs: List[Int]): List[Int] = {
+
+        @tailrec
+        def insert(xs: List[Int], x: Int, acc: List[Int] = Nil): List[Int] = xs match {
+            case Nil => acc appended x
+            case head :: tail =>
+                if (x < head)
+                    acc ::: (x :: xs)
+                else
+                    insert(tail, x, acc appended head)
+        }
+
+        xs.foldLeft(List[Int]()) { (acc, elem) => insert(acc, elem) }
     }
 
     def shellSort(source: Array[Int]): Array[Int] = {
