@@ -26,9 +26,16 @@ object Selection {
      * @return
      */
     @tailrec
-    def selectionSort(xs: List[Int], acc: List[Int] = Nil): List[Int] = xs match {
-        case Nil => acc
-        case _ => selectionSort(xs.filter(_ < xs.max), xs.filter(_ == xs.max) ::: acc)
+    def selectionSort(xs: List[Int], acc: List[Int] = Nil): List[Int] = {
+
+        val max = (xs:List[Int]) => xs.foldLeft(0) {(max, elem) => if (max > elem) max else elem}
+
+        xs match {
+            case Nil => acc
+            case _ =>
+                val (left, right) = xs partition (_ < max(xs))
+                selectionSort(left, right ::: acc)
+        }
     }
 
     def heapSort(source: Array[Int]): Array[Int] = {
