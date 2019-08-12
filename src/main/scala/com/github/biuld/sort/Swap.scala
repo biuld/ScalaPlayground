@@ -37,9 +37,10 @@ object Swap {
     }
 
     /**
-     * a uglier version, but is tail-recursive(the one and only that I was able to find on Google),
-     * @param xs List to be sorted
-     * @param lt comparing predicate
+     * a uglier version, but is tail-recursive(the one and only that I was able to find on Google)
+     *
+     * @param xs         List to be sorted
+     * @param lt         comparing predicate
      * @param conversion converts T to Ordered[T] implicitly
      * @tparam T type parameter
      * @return

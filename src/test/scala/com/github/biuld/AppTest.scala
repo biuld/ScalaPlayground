@@ -7,7 +7,6 @@ class AppTest {
 
     @Test
     def testOK(): Unit = println("Hello, Scala Playground!")
-
 }
 
 

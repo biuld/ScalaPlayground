@@ -20,6 +20,7 @@ object Selection {
 
     /**
      * This version perfectly shows the concept of selection
+     *
      * @param xs  the list to be sorted
      * @param acc the accumulator
      * @return
