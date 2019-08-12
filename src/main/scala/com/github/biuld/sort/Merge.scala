@@ -1,18 +1,21 @@
 package com.github.biuld.sort
 
+import scala.annotation.tailrec
+
 object Merge {
 
     def mergeSort(xs: List[Int]): List[Int] = {
 
-        def merge(left: List[Int], right: List[Int]): List[Int] = {
+        @tailrec
+        def merge(left: List[Int], right: List[Int], acc: List[Int] = Nil): List[Int] = {
             (left, right) match {
-                case (Nil, _) => right
-                case (_, Nil) => left
-                case (lHead :: lTail, rHead :: rTail) =>
-                    if (lHead < rHead)
-                        lHead :: merge(lTail, right)
+                case (Nil, _) => acc ::: right
+                case (_, Nil) => acc ::: left
+                case (lh :: lt, rh :: rt) =>
+                    if (lh < rh)
+                        merge(lt, right, acc appended lh)
                     else
-                        rHead :: merge(rTail, left)
+                        merge(rt, left, acc appended rh)
             }
         }
 

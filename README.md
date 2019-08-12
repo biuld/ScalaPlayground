@@ -2,7 +2,7 @@
 > some fun staff I wrote while learning Scala
 
 ## Description
-For now, this repo already had some implementations of the normal algorithms and data structures.  
+For now, this repo already had some implementations of the common algorithms and data structures.  
 
 1. Binary Tree  
 2. Large Integer Calculator
