@@ -26,6 +26,27 @@ object Swap {
         source
     }
 
+    @tailrec
+    def bubbleSort(xs: List[Int], acc: List[Int] = Nil): List[Int] = {
+
+        @tailrec
+        def bubble(xs: List[Int], acc: List[Int] = Nil): List[Int] = xs match {
+            case head :: Nil => acc appended head
+            case first :: second :: rest =>
+                if (first < second)
+                    bubble(second :: rest, acc appended first)
+                else
+                    bubble(first :: rest, acc appended second)
+        }
+
+        xs match {
+            case head :: Nil => head :: acc
+            case _ =>
+                val (init, last) = bubble(xs) splitAt (xs.length - 1)
+                bubbleSort(init, last ::: acc)
+        }
+    }
+
     def quickSortAlt(xs: List[Int]): List[Int] = xs match {
         case Nil => Nil
         case head :: tail =>
