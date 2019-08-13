@@ -5,8 +5,6 @@ import org.junit._
 @Test
 class AppTest {
 
-    @Test
-    def testOK(): Unit = println("Hello, Scala Playground!")
+  @Test
+  def testOK(): Unit = println("Hello, Scala Playground!")
 }
-
-

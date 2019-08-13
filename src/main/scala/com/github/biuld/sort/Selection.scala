@@ -7,83 +7,85 @@ import scala.collection.mutable.ArrayBuffer
 
 object Selection {
 
-    def selectionSort(source: Array[Int]): Array[Int] = {
-        for (i <- source.indices)
-            for (j <- i + 1 until source.length)
-                if (source(j) < source(i)) {
-                    val temp = source(i)
-                    source(i) = source(j)
-                    source(j) = temp
-                }
-        source
+  def selectionSort(source: Array[Int]): Array[Int] = {
+    for (i <- source.indices)
+      for (j <- i + 1 until source.length)
+        if (source(j) < source(i)) {
+          val temp = source(i)
+          source(i) = source(j)
+          source(j) = temp
+        }
+    source
+  }
+
+  /**
+    * This version perfectly shows the concept of selection
+    *
+    * @param xs  the list to be sorted
+    * @param acc the accumulator
+    * @return
+    */
+  @tailrec
+  def selectionSort(xs: List[Int], acc: List[Int] = Nil): List[Int] = {
+
+    val max = (xs: List[Int]) =>
+      xs.foldLeft(0) { (max, elem) =>
+        if (max > elem) max else elem
     }
 
-    /**
-     * This version perfectly shows the concept of selection
-     *
-     * @param xs  the list to be sorted
-     * @param acc the accumulator
-     * @return
-     */
+    xs match {
+      case Nil => acc
+      case _ =>
+        val (left, right) = xs partition (_ < max(xs))
+        selectionSort(left, right ::: acc)
+    }
+  }
+
+  def heapSort(source: Array[Int]): Array[Int] = {
+
     @tailrec
-    def selectionSort(xs: List[Int], acc: List[Int] = Nil): List[Int] = {
+    def heapify(xs: Array[Int], size: Int, rootIndex: Int): Unit = {
 
-        val max = (xs:List[Int]) => xs.foldLeft(0) {(max, elem) => if (max > elem) max else elem}
+      var largest = rootIndex
+      val left = 2 * rootIndex + 1
+      val right = 2 * rootIndex + 2
 
-        xs match {
-            case Nil => acc
-            case _ =>
-                val (left, right) = xs partition (_ < max(xs))
-                selectionSort(left, right ::: acc)
-        }
+      if (left < size && xs(left) > xs(largest))
+        largest = left
+
+      if (right < size && xs(right) > xs(largest))
+        largest = right
+
+      if (rootIndex != largest) {
+        val temp = xs(rootIndex)
+        xs(rootIndex) = xs(largest)
+        xs(largest) = temp
+
+        heapify(xs, size, largest)
+      }
     }
 
-    def heapSort(source: Array[Int]): Array[Int] = {
+    @tailrec
+    def sort(xs: Array[Int], end: Int): Unit = {
 
-        @tailrec
-        def heapify(xs: Array[Int], size: Int, rootIndex: Int): Unit = {
+      if (end == 0)
+        return
 
-            var largest = rootIndex
-            val left = 2 * rootIndex + 1
-            val right = 2 * rootIndex + 2
+      val temp = xs(0)
+      xs(0) = xs(end)
+      xs(end) = temp
 
-            if (left < size && xs(left) > xs(largest))
-                largest = left
-
-            if (right < size && xs(right) > xs(largest))
-                largest = right
-
-            if (rootIndex != largest) {
-                val temp = xs(rootIndex)
-                xs(rootIndex) = xs(largest)
-                xs(largest) = temp
-
-                heapify(xs, size, largest)
-            }
-        }
-
-        @tailrec
-        def sort(xs: Array[Int], end: Int): Unit = {
-
-            if (end == 0)
-                return
-
-            val temp = xs(0)
-            xs(0) = xs(end)
-            xs(end) = temp
-
-            heapify(xs, end, 0)
-            sort(xs, end - 1)
-        }
-
-        //build a heap
-        for (i <- (0 until source.length / 2).reverse)
-            heapify(source, source.length, i)
-
-        sort(source, source.length - 1)
-
-        source
+      heapify(xs, end, 0)
+      sort(xs, end - 1)
     }
 
+    //build a heap
+    for (i <- (0 until source.length / 2).reverse)
+      heapify(source, source.length, i)
+
+    sort(source, source.length - 1)
+
+    source
+  }
 
 }
