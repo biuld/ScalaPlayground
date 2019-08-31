@@ -33,7 +33,7 @@ object BinaryTree {
     def levelOrderStr: String = {
       val str = new mutable.StringBuilder
       BinaryTree.levelOrder(tree, {
-        case Empty              => str append Empty.toString
+        case Empty => str append Empty.toString
         case nonEmpty: TreeNode => str append nonEmpty.elem
       })
       str.mkString(",")
@@ -44,17 +44,11 @@ object BinaryTree {
       case nonEmpty: TreeNode => {
         style match {
           case 0 =>
-            "(" + nonEmpty.elem + "." + stringify(0, nonEmpty.left) + "." + stringify(
-              0,
-              nonEmpty.right) + ")"
+            "(" + nonEmpty.elem + "." + stringify(0, nonEmpty.left) + "." + stringify(0, nonEmpty.right) + ")"
           case 1 =>
-            "(" + stringify(1, nonEmpty.left) + "." + nonEmpty.elem + "." + stringify(
-              1,
-              nonEmpty.right) + ")"
+            "(" + stringify(1, nonEmpty.left) + "." + nonEmpty.elem + "." + stringify(1, nonEmpty.right) + ")"
           case 2 =>
-            "(" + stringify(2, nonEmpty.left) + "." + stringify(
-              2,
-              nonEmpty.right) + "." + nonEmpty.elem + ")"
+            "(" + stringify(2, nonEmpty.left) + "." + stringify(2, nonEmpty.right) + "." + nonEmpty.elem + ")"
           case 3 => "(" + levelOrderStr + ")"
         }
       }
