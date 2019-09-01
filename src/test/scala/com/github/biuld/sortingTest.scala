@@ -5,7 +5,6 @@ import org.junit.Test
 
 import scala.util.Random
 
-@Test
 class sortingTest {
 
   val generator: IndexedSeq[Int] = for (i <- 1 to 100) yield Random.nextInt(100)

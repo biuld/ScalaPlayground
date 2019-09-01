@@ -5,7 +5,6 @@ import org.junit.Test
 
 import scala.util.Random
 
-@Test
 class largeIntCalTest {
 
   @Test

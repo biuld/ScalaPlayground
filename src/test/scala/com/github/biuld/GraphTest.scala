@@ -15,5 +15,13 @@ class GraphTest {
     Graph.topoSort(graph).foreach(println)
     println()
     Graph.topoSort(graph2).foreach(println)
+    println()
+    Graph.dfs(graph).foreach(println)
+    println()
+    Graph.bfs(graph).foreach(println)
+    println()
+    Graph.dfs(graph2).foreach(println)
+    println()
+    Graph.bfs(graph2).foreach(println)
   }
 }
