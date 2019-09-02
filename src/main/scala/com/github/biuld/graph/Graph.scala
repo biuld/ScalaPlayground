@@ -2,44 +2,35 @@ package com.github.biuld.graph
 
 import scala.annotation.tailrec
 
-class Graph[T](_vertexSet: Set[T], _edgeSet: Set[(T, T)]) {
+class Graph[V, E <: Edge[V]](_vertexSet: Set[V], _edgeSet: Set[E]) {
 
-  type Edge = (T, T)
+  val vertexSet: Set[V] = _vertexSet
+  val edgeSet: Set[E] = _edgeSet
 
-  val vertexSet: Set[T] = _vertexSet
-  val edgeSet: Set[Edge] = _edgeSet
-
-  def reduce(edgeSet: Set[Edge]): List[T] = edgeSet.foldLeft(List[T]().empty)((acc, elem) => acc ::: List(elem._2))
-
-  def adjacencyList: Map[T, List[T]] = {
-    edgeSet.groupBy(elem => elem._1)
-      .foldLeft(Map[T, List[T]]().empty)((acc, elem) => acc + (elem._1 -> reduce(elem._2)))
-  }
-
-  def removeVertex(vertex: T): Graph[T] = {
-    val edgeSet = this.edgeSet.filter(elem => !elem._1.equals(vertex)).filter(elem => !elem._2.equals(vertex))
+  def removeVertex(vertex: V): Graph[V, E] = {
+    val edgeSet = this.edgeSet.filter(!_.source.equals(vertex)).filter(!_.target.equals(vertex))
     val vertexSet = this.vertexSet - vertex
-    new Graph[T](vertexSet, edgeSet)
+    new Graph[V, E](vertexSet, edgeSet)
   }
 
-  def countOutEdges(vertex: T): Int = edgeSet.count(elem => elem._1.equals(vertex))
+  def countOutEdges(vertex: V): Int = edgeSet.count(_.source.equals(vertex))
 
-  def countInEdges(vertex: T): Int = edgeSet.count(elem => elem._2.equals(vertex))
+  def countInEdges(vertex: V): Int = edgeSet.count(_.target.equals(vertex))
 
-  def root: Option[T] = vertexSet.find(elem => countInEdges(elem) == 0)
+  def root: Option[V] = vertexSet.find(countInEdges(_) == 0)
 
   override def toString: String = this.vertexSet + "\n" + this.edgeSet
 }
 
 object Graph {
 
-  def apply[T](edgeSet: Set[(T, T)] = Set[(T, T)]()): Graph[T] = {
-    val vertexSet = edgeSet.foldLeft(Set[T]().empty)((acc, elem) => acc incl elem._1 incl elem._2)
-    new Graph[T](vertexSet, edgeSet)
+  def apply[V, E <: Edge[V]](edgeSet: Set[E] = Set[E]()): Graph[V, E] = {
+    val vertexSet = edgeSet.foldLeft(Set[V]().empty)((acc, elem) => acc incl elem.source incl elem.target)
+    new Graph[V, E](vertexSet, edgeSet)
   }
 
   @tailrec
-  def topoSort[T](graph: Graph[T], acc: List[T] = Nil): List[T] = graph.root match {
+  def topoSort[V, E <: Edge[V]](graph: Graph[V, E], acc: List[V] = Nil): List[V] = graph.root match {
     case None => graph.edgeSet match {
       case _ if graph.edgeSet.isEmpty => graph.vertexSet.foldLeft(acc)((acc, vertex) => acc ::: List(vertex))
       case _ => acc
@@ -47,12 +38,12 @@ object Graph {
     case Some(vertex) => topoSort(graph.removeVertex(vertex), acc ::: List(vertex))
   }
 
-  def dfs[T](graph: Graph[T]): List[T] = {
+  def dfs[V, E <: Edge[V]](graph: Graph[V, E]): List[V] = {
 
     @tailrec
-    def traverse(start: T, graph: Graph[T], acc: List[T] = Nil): List[T] = {
+    def traverse(start: V, graph: Graph[V, E], acc: List[V] = Nil): List[V] = {
 
-      val next = graph.edgeSet.find(_._1.equals(start)).map(_._2)
+      val next = graph.edgeSet.find(_.source.equals(start)).map(_.target)
 
       next match {
         case None =>
@@ -69,7 +60,7 @@ object Graph {
   }
 
   @tailrec
-  def bfs[T](graph: Graph[T], queue: List[T] = Nil, acc: List[T] = Nil): List[T] = queue match {
+  def bfs[V, E <: Edge[V]](graph: Graph[V, E], queue: List[V] = Nil, acc: List[V] = Nil): List[V] = queue match {
     case Nil => graph.vertexSet match {
       case _ if graph.vertexSet.isEmpty => acc
       case _ => bfs(graph, graph.vertexSet.head :: Nil)
@@ -77,8 +68,8 @@ object Graph {
     case head :: tail =>
 
       val queue2 = graph.edgeSet
-        .filter(_._1.equals(head))
-        .map(_._2)
+        .filter(_.source.equals(head))
+        .map(_.target)
         .foldLeft(tail)((acc, elem) => if (acc contains elem) acc else acc ::: List(elem))
 
       bfs(graph.removeVertex(head), queue2, acc ::: List(head))

@@ -7,9 +7,8 @@ object Merge {
   def mergeSort(xs: List[Int]): List[Int] = {
 
     @tailrec
-    def merge(left: List[Int],
-              right: List[Int],
-              acc: List[Int] = Nil): List[Int] = {
+    def merge(left: List[Int], right: List[Int], acc: List[Int] = Nil): List[Int] = {
+
       (left, right) match {
         case (Nil, _) => acc ::: right
         case (_, Nil) => acc ::: left
