@@ -19,6 +19,8 @@ class Graph[V, E <: Edge[V]](_vertexSet: Set[V], _edgeSet: Set[E]) {
 
   def root: Option[V] = vertexSet.find(countInEdges(_) == 0)
 
+  def roots: Set[V] = vertexSet.filter(countInEdges(_) == 0)
+
   override def toString: String = this.vertexSet + "\n" + this.edgeSet
 }
 
@@ -32,10 +34,33 @@ object Graph {
   @tailrec
   def topoSort[V, E <: Edge[V]](graph: Graph[V, E], acc: List[V] = Nil): List[V] = graph.root match {
     case None => graph.edgeSet match {
-      case _ if graph.edgeSet.isEmpty => graph.vertexSet.foldLeft(acc)((acc, vertex) => acc ::: List(vertex))
-      case _ => acc
+      case _ if graph.edgeSet.isEmpty => acc
+      case _ => throw new IllegalArgumentException("The input graph has at lease one cycle")
     }
     case Some(vertex) => topoSort(graph.removeVertex(vertex), acc ::: List(vertex))
+  }
+
+  def topoSortAll[V, E <: Edge[V]](graph: Graph[V, E]): List[List[V]] = {
+
+    var result = List[List[V]]()
+
+    def sort(graph: Graph[V, E], acc:List[V] = Nil): Unit = {
+
+      val roots = graph.roots
+
+      roots match {
+        case _ if roots.isEmpty => graph.edgeSet match {
+          case _ if graph.edgeSet.isEmpty => result = result ::: List(acc)
+          case _ => throw new IllegalArgumentException("The input graph has at lease one cycle")
+        }
+        case _ => roots.foreach(elem => {
+          sort(graph.removeVertex(elem), acc ::: List(elem))
+        })
+      }
+    }
+
+    sort(graph)
+    result
   }
 
   def dfs[V, E <: Edge[V]](graph: Graph[V, E]): List[V] = {
