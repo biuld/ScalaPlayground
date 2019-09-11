@@ -26,5 +26,7 @@ class GraphTest {
     Graph.bfs(graph2).foreach(println)
     println()
     Graph.topoSortAll(graph3).foreach(println)
+    println()
+    Graph.topoSortAllNeo(graph3).foreach(println)
   }
 }

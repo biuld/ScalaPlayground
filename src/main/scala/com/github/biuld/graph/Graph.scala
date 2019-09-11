@@ -44,14 +44,14 @@ object Graph {
 
     var result = List[List[V]]()
 
-    def sort(graph: Graph[V, E], acc:List[V] = Nil): Unit = {
+    def sort(graph: Graph[V, E], acc: List[V] = Nil): Unit = {
 
       val roots = graph.roots
 
       roots match {
         case _ if roots.isEmpty => graph.edgeSet match {
           case _ if graph.edgeSet.isEmpty => result = result ::: List(acc)
-          case _ => throw new IllegalArgumentException("The input graph has at lease one cycle")
+          case _ => throw new IllegalArgumentException("The input graph has at least one cycle")
         }
         case _ => roots.foreach(elem => {
           sort(graph.removeVertex(elem), acc ::: List(elem))
@@ -61,6 +61,42 @@ object Graph {
 
     sort(graph)
     result
+  }
+
+  def topoSortAllNeo[V, E <: Edge[V]](graph: Graph[V, E]): List[List[V]] = {
+
+    case class GraphPak(graph: Graph[V, E], acc: List[V] = Nil, isCompleted: Boolean = false) {
+      override def toString: String = s"(${graph.vertexSet.mkString(",")} ${acc} ${isCompleted})"
+    }
+
+    def emitter(pak: GraphPak): List[GraphPak] = {
+      val graph = pak.graph
+      val acc = pak.acc
+      val roots = pak.graph.roots
+
+      roots match {
+        case _ if roots.isEmpty => graph.edgeSet match {
+          case _ if graph.edgeSet.isEmpty => GraphPak(graph, acc, isCompleted = true) :: Nil
+          case _ => throw new IllegalArgumentException("The input graph has at least one cycle")
+        }
+        case _ => roots.map(elem => {
+          GraphPak(graph.removeVertex(elem), acc ::: List(elem))
+        }).toList
+      }
+    }
+
+    @tailrec
+    def co(todo: List[GraphPak], done: List[GraphPak] = Nil): List[List[V]] = {
+      todo match {
+        case head :: tail => co(tail, done ::: emitter(head))
+        case Nil =>
+          if (done.forall(_.isCompleted))
+            done.map(_.acc)
+          else co(done)
+      }
+    }
+
+    co(emitter(GraphPak(graph)))
   }
 
   def dfs[V, E <: Edge[V]](graph: Graph[V, E]): List[V] = {
