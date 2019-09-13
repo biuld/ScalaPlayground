@@ -1,6 +1,8 @@
 package com.github.biuld.graph
 
 import scala.annotation.tailrec
+import scala.collection.parallel.CollectionConverters._
+import scala.collection.parallel.ParSeq
 
 class Graph[V, E <: Edge[V]](_vertexSet: Set[V], _edgeSet: Set[E]) {
 
@@ -70,6 +72,10 @@ object Graph {
     }
 
     def emitter(pak: GraphPak): List[GraphPak] = {
+
+      if (pak.isCompleted)
+        return pak :: Nil
+
       val graph = pak.graph
       val acc = pak.acc
       val roots = pak.graph.roots
@@ -86,17 +92,15 @@ object Graph {
     }
 
     @tailrec
-    def co(todo: List[GraphPak], done: List[GraphPak] = Nil): List[List[V]] = {
-      todo match {
-        case head :: tail => co(tail, done ::: emitter(head))
-        case Nil =>
-          if (done.forall(_.isCompleted))
-            done.map(_.acc)
-          else co(done)
-      }
+    def co(todo: ParSeq[GraphPak]): ParSeq[List[V]] = {
+
+      if (todo.forall(_.isCompleted))
+        todo.par.map(_.acc)
+      else
+        co(todo.par.flatMap(emitter))
     }
 
-    co(emitter(GraphPak(graph)))
+    co(emitter(GraphPak(graph)).par).toList
   }
 
   def dfs[V, E <: Edge[V]](graph: Graph[V, E]): List[V] = {

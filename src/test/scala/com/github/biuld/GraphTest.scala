@@ -2,6 +2,7 @@ package com.github.biuld
 
 import com.github.biuld.graph.{DefaultEdge, Edge, Graph}
 import org.junit.Test
+import scala.collection.parallel.CollectionConverters._
 
 class GraphTest {
 
