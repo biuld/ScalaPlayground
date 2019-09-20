@@ -31,6 +31,7 @@ object Swap {
 
     @tailrec
     def bubble(xs: List[Int], acc: List[Int] = Nil): List[Int] = xs match {
+      case Nil => acc
       case head :: Nil => acc appended head
       case first :: second :: rest =>
         if (first < second)
@@ -40,6 +41,7 @@ object Swap {
     }
 
     xs match {
+      case Nil => Nil
       case head :: Nil => head :: acc
       case _ =>
         val (init, last) = bubble(xs) splitAt (xs.length - 1)
@@ -55,11 +57,11 @@ object Swap {
   }
 
   /**
-    * a uglier version, but tail-recursive(the one and only that I was able to find on Google)
-    *
-    * @param xs the list to be sorted
-    * @return
-    */
+   * a uglier version, but tail-recursive(the one and only that I was able to find on Google)
+   *
+   * @param xs the list to be sorted
+   * @return
+   */
   def quickSort(xs: List[Int]): List[Int] = {
     @tailrec
     def sort(todo: List[List[Int]], done: List[Int]): List[Int] = todo match {

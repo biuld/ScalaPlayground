@@ -23,7 +23,7 @@ class Graph[V, E <: Edge[V]](_vertexSet: Set[V], _edgeSet: Set[E]) {
 
   def roots: Set[V] = vertexSet.filter(countInEdges(_) == 0)
 
-  override def toString: String = this.vertexSet + "\n" + this.edgeSet
+  override def toString: String = this.vertexSet.toString ++ "\n" ++ this.edgeSet.toString
 }
 
 object Graph {
