@@ -19,4 +19,4 @@ PS. If you have any advice or recommendation, feel free to fire an issue or pull
 Checkout the test cases in the test package
 
 ## Notice
-Rather than using sbt as the build tool, which is recommended, I chose maven to set up this repo. 
+Rather than using sbt as the build tool, which is recommended, I chose gradle to set up this repo. 
