@@ -1,6 +1,6 @@
 package com.github.biuld
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import typeclass.Monoid
 
 class TypeclassTest {

@@ -1,7 +1,7 @@
 package com.github.biuld
 
 import com.github.biuld.sort.{Insertion, Merge, Selection, Swap}
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import scala.util.Random
 

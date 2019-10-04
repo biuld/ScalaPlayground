@@ -1,7 +1,7 @@
 package com.github.biuld
 
 import com.github.biuld.biTree.{BinaryTree, Empty, TreeNode}
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class BinaryTreeTest {
 

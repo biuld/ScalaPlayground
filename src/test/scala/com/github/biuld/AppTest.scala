@@ -1,6 +1,6 @@
 package com.github.biuld
 
-import org.junit._
+import org.junit.jupiter.api.Test
 
 class AppTest {
 
