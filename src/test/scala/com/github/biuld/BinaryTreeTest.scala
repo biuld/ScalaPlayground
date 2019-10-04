@@ -1,30 +1,51 @@
 package com.github.biuld
 
 import com.github.biuld.biTree.{BinaryTree, Empty, TreeNode}
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.{Assertions, DisplayName, Test}
 
 class BinaryTreeTest {
 
-  @Test
-  def test(): Unit = {
-    val tree: BinaryTree = BinaryTree(Array(1, 3, 2, 4, 5))
+  val tree: BinaryTree = BinaryTree(Array(1, 3, 2, 4, 5))
 
+  val fn: BinaryTree => Unit = {
+    case Empty => print(Empty)
+    case nonEmpty: TreeNode => print(nonEmpty.elem)
+  }
+
+  @DisplayName("stringify")
+  @Test
+  def stringify(): Unit = {
     Array(0, 1, 2, 3).foreach(style =>
       println(BinaryTree.stringify(style, tree)))
+  }
 
-    println(BinaryTree.height(tree))
+  @DisplayName("height")
+  @Test
+  def height(): Unit = {
+    Assertions.assertEquals(4, BinaryTree.height(tree))
+  }
 
-    val fn: BinaryTree => Unit = {
-      case Empty              => print(Empty)
-      case nonEmpty: TreeNode => print(nonEmpty.elem)
-    }
-
-    BinaryTree.preOrder(tree, fn)
-    println()
+  @DisplayName("in order traverse")
+  @Test
+  def inOrder(): Unit = {
     BinaryTree.inOrder(tree, fn)
-    println()
+  }
+
+  @DisplayName("pre order traverse")
+  @Test
+  def preOrder(): Unit = {
+    BinaryTree.preOrder(tree, fn)
+  }
+
+  @DisplayName("post order traverse")
+  @Test
+  def postOrder(): Unit = {
     BinaryTree.postOrder(tree, fn)
-    println()
+  }
+
+  @DisplayName("level order traverse")
+  @Test
+  def levelOrder(): Unit = {
     BinaryTree.levelOrder(tree, fn)
   }
 }

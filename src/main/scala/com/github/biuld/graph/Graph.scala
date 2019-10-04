@@ -132,12 +132,12 @@ object Graph {
     }
     case head :: tail =>
 
-      val queue2 = graph.edgeSet
+      val queue = graph.edgeSet
         .filter(_.source.equals(head))
         .map(_.target)
         .foldLeft(tail)((acc, elem) => if (acc contains elem) acc else acc ::: List(elem))
 
-      bfs(graph.removeVertex(head), queue2, acc ::: List(head))
+      bfs(graph.removeVertex(head), queue, acc ::: List(head))
   }
 
 }

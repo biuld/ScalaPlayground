@@ -1,6 +1,6 @@
 package com.github.biuld
 
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.{Assertions, DisplayName, Test}
 import typeclass.Monoid
 
 class TypeclassTest {
@@ -14,14 +14,14 @@ class TypeclassTest {
    * https://docs.scala-lang.org/tour/implicit-parameters.html
    * https://www.youtube.com/watch?v=1e9tcymPl7w
    */
-
+  @DisplayName("Type Class")
   @Test
   def test(): Unit = {
     val intXs: List[Int] = (for (x <- 0 to 10) yield x).toList
 
     val stringXs: List[String] = (for (x <- "Hello, world!".split("")) yield x).toList
 
-    assert(Monoid.sum(intXs) == intXs.sum)
-    assert(Monoid.sum(stringXs) == "Hello, world!")
+    Assertions.assertEquals(Monoid.sum(intXs), intXs.sum)
+    Assertions.assertEquals(Monoid.sum(stringXs), "Hello, world!")
   }
 }
